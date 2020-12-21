@@ -187,6 +187,8 @@ func server(pass string) error {
 	e.Use(middleware.Recover())
 	e.Renderer = t
 
+	e.File("/favicon.ico", "favicon.ico")
+
 	r := e.Group(fmt.Sprintf("/%s", pass))
 	r.GET("/streaming", wsController)
 	r.GET("/wol", htmlController)
