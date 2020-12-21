@@ -1,0 +1,73 @@
+{{- /*gotype: github.com/kyori19/wol-proxy.data*/ -}}
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta content="IE=edge" http-equiv="X-UA-Compatible" />
+	<meta content="width=device-width, initial-scale=1" name="viewport" />
+	<meta name="robots" content="noindex">
+
+	<title>Wake on LAN Proxy</title>
+
+	<link href="https://cdn.muicss.com/mui-0.10.3/css/mui.min.css" rel="stylesheet" type="text/css" />
+	<script src="https://cdn.muicss.com/mui-0.10.3/js/mui.min.js"></script>
+</head>
+<body>
+
+<header class="mui-appbar">
+	<div class="mui-container mui--text-center">
+		<h1 class="mui--text-title">Wake on LAN Proxy</h1>
+	</div>
+</header>
+
+<div class="mui-container" style="margin-top: 4px">
+	<div class="mui-panel">
+		<table style="width: 60%; margin: 0 20%">
+			<tr>
+				<td class="mui--text-headline">Client status</td>
+				{{- if eq .ClientResponse "" -}}
+					<td class="mui--align-middle mui--text-center mui--text-danger">
+						{{- if .NotConnected -}}
+							Not connected
+						{{- else -}}
+							{{- .ConnErr -}}
+						{{- end -}}
+					</td>
+				{{- else -}}
+					<td class="mui--align-middle mui--text-center mui--text-accent">
+						{{- .ClientResponse -}}
+					</td>
+				{{- end -}}
+			</tr>
+		</table>
+
+		{{- if ne .ClientResponse "" -}}
+			<div style="margin: 8px">
+				<form class="mui-form" method="post" action="">
+					<div class="mui-textfield" style="margin-bottom: 5px">
+						<input type="text" id="address" name="address" value="{{- .DefaultAddr -}}" required />
+						<label for="address">MAC address</label>
+					</div>
+					<div class="mui--text-center">
+						<button type="submit"
+								class="mui-btn mui-btn--primary mui-btn--raised">
+							Wake!
+						</button>
+					</div>
+				</form>
+			</div>
+		{{- end -}}
+
+		{{- if .FormSuccess -}}
+			<div class="mui--text-accent">Request successfully sent!</div>
+		{{- end -}}
+
+		{{- if ne .FormErr "" -}}
+			<div class="mui--text-danger">{{- .FormErr -}}</div>
+		{{- end -}}
+	</div>
+</div>
+
+</body>
+</html>
