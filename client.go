@@ -19,13 +19,24 @@ const (
 	resError = "error"
 )
 
+var (
+	hostAddr string
+	secure   bool
+)
+
 func client(pass string) error {
 	interrupt := make(chan os.Signal, 1)
 	signal.Notify(interrupt, os.Interrupt)
 
+	scheme := func() string {
+		if secure {
+			return "wss"
+		}
+		return "ws"
+	}()
 	u := url.URL{
-		Scheme: "ws",
-		Host:   "localhost:3000",
+		Scheme: scheme,
+		Host:   hostAddr,
 		Path:   fmt.Sprintf("/%s/streaming", pass),
 	}
 

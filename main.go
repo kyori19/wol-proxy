@@ -35,6 +35,9 @@ var (
 )
 
 func main() {
+	clientCmd.Flags().StringVarP(&hostAddr, "host", "h", "localhost:3000", "Remote server address")
+	clientCmd.Flags().BoolVarP(&secure, "secure", "s", false, "Use wss for client connection")
+
 	rootCmd.AddCommand(clientCmd, serverCmd)
 
 	if err := rootCmd.Execute(); err != nil {
